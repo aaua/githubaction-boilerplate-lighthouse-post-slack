@@ -1,0 +1,37 @@
+name: lighthouse
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install lighthouse
+        run: sudo npm i -g lighthouse
+
+      - name: Run lighthouse
+        run: |
+          lighthouse \
+            --chrome-flags="--headless" \
+            --output html --output json --output-path lighthouse \
+            '${{ secrets.LIGHTHOUSE_URL }}'
+
+      - name: Send Slack HTML
+        run: |
+          curl -F file=@./lighthouse.report.html \
+            -F "initial_comment=Lighthouse HTML ${{ secrets.LIGHTHOUSE_URL }}" \
+            -F channels=${{ secrets.LIGHTHOUSE_SLACK_CHANNELS }} \
+            -H "Authorization: Bearer ${{ secrets.LIGHTHOUSE_SLACK_OAUTH_TOKEN }}" \
+            https://slack.com/api/files.upload
+
+      - name: Send Slack JSON
+        run: |
+          curl -F file=@./lighthouse.report.json \
+            -F "initial_comment=Lighthouse JSON ${{ secrets.LIGHTHOUSE_URL }}" \
+            -F channels=${{ secrets.LIGHTHOUSE_SLACK_CHANNELS }} \
+            -H "Authorization: Bearer ${{ secrets.LIGHTHOUSE_SLACK_OAUTH_TOKEN }}" \
+            https://slack.com/api/files.uploadz
