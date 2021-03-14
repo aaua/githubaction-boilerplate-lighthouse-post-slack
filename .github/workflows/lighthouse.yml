@@ -10,14 +10,12 @@ jobs:
     steps:
       - name: Install lighthouse
         run: sudo npm i -g lighthouse
-
       - name: Run lighthouse
         run: |
           lighthouse \
             --chrome-flags="--headless" \
             --output html --output json --output-path lighthouse \
             '${{ secrets.LIGHTHOUSE_URL }}'
-
       - name: Send Slack HTML
         run: |
           curl -F file=@./lighthouse.report.html \
@@ -25,7 +23,6 @@ jobs:
             -F channels=${{ secrets.LIGHTHOUSE_SLACK_CHANNELS }} \
             -H "Authorization: Bearer ${{ secrets.LIGHTHOUSE_SLACK_OAUTH_TOKEN }}" \
             https://slack.com/api/files.upload
-
       - name: Send Slack JSON
         run: |
           curl -F file=@./lighthouse.report.json \
