@@ -2,7 +2,8 @@ name: lighthouse
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    # 10:00 (JST)
+    - cron: "0 1 * * *"
 
 jobs:
   build:
