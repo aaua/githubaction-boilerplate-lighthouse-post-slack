@@ -31,4 +31,4 @@ jobs:
             -F "initial_comment=Lighthouse JSON ${{ secrets.LIGHTHOUSE_URL }}" \
             -F channels=${{ secrets.LIGHTHOUSE_SLACK_CHANNELS }} \
             -H "Authorization: Bearer ${{ secrets.LIGHTHOUSE_SLACK_OAUTH_TOKEN }}" \
-            https://slack.com/api/files.uploadz
+            https://slack.com/api/files.upload
