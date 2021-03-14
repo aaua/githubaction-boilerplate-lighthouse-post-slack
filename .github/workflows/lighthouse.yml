@@ -2,14 +2,12 @@ name: lighthouse
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: "*/5 * * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
       - name: Install lighthouse
         run: sudo npm i -g lighthouse
 
